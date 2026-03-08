@@ -1,0 +1,13 @@
+---
+repos:
+  - repo: https://github.com/biomejs/pre-commit
+    rev: v2.3.15
+    hooks:
+      - id: biome-check
+  - repo: local
+    hooks:
+      - id: frontend-typecheck
+        name: frontend-typecheck
+        pass_filenames: false
+        entry: bash -c 'npm run typecheck'
+        language: system
