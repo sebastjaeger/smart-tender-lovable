@@ -1,0 +1,47 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+.venv
+.env
+node_modules
+
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+playwright-report
+
+node_modules
+test-results
+.ruff_cache
+.mypy_cache
+*.local
+
+# Editor directories and files
+.vscode
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.cursor
+
+backend/data
+openapi.json
+todo.md
+data
+
+# Vscode convenience for correct biome version. To be remove later.
+package.json
+package-lock.json

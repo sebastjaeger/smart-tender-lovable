@@ -1,0 +1,54 @@
+.markdownContent {
+  max-width: 100%;
+  overflow-x: auto;
+  word-wrap: break-word;
+}
+
+.markdownContent table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+  border: 1px solid var(--mantine-color-gray-3);
+  border-radius: var(--mantine-radius-sm);
+  overflow: hidden;
+}
+
+.markdownContent table th,
+.markdownContent table td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--mantine-color-gray-3);
+}
+
+.markdownContent table th {
+  background-color: var(--mantine-color-gray-1);
+  font-weight: 600;
+  color: var(--mantine-color-gray-9);
+}
+
+.markdownContent table tr:hover {
+  background-color: var(--mantine-color-gray-0);
+}
+
+.markdownContent table tr:last-child td {
+  border-bottom: none;
+}
+
+/* Dark theme support */
+[data-mantine-color-scheme="dark"] .markdownContent table {
+  border-color: var(--mantine-color-dark-4);
+}
+
+[data-mantine-color-scheme="dark"] .markdownContent table th,
+[data-mantine-color-scheme="dark"] .markdownContent table td {
+  border-bottom-color: var(--mantine-color-dark-4);
+}
+
+[data-mantine-color-scheme="dark"] .markdownContent table th {
+  background-color: var(--mantine-color-dark-6);
+  color: var(--mantine-color-gray-0);
+}
+
+[data-mantine-color-scheme="dark"] .markdownContent table tr:hover {
+  background-color: var(--mantine-color-dark-7);
+}
