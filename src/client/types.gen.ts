@@ -69,7 +69,7 @@ export type BodyProjectsUploadFile = {
     /**
      * File
      */
-    file: Blob | File;
+    file: string;
 };
 
 /**
@@ -257,7 +257,6 @@ export type ProjectCreate = {
 
 /**
  * ProjectListItem
- * Project with inline statistics and owner info for list views.
  */
 export type ProjectListItem = {
     /**
@@ -286,17 +285,14 @@ export type ProjectListItem = {
     owner_id: number;
     /**
      * File Count
-     * Number of files in the project
      */
     file_count?: number;
     /**
      * Analysis Count
-     * Number of analyses in the project
      */
     analysis_count?: number;
     /**
      * Owner Email
-     * Email of the project owner
      */
     owner_email: string;
 };
@@ -308,7 +304,6 @@ export type ProjectListItem = {
 export type ProjectListResponse = {
     /**
      * Items
-     * Projects in this page
      */
     items: Array<ProjectListItem>;
     /**
@@ -542,6 +537,16 @@ export type ValidationError = {
      * Error Type
      */
     type: string;
+    /**
+     * Input
+     */
+    input?: unknown;
+    /**
+     * Context
+     */
+    ctx?: {
+        [key: string]: unknown;
+    };
 };
 
 export type LoginLoginAccessTokenData = {
@@ -557,7 +562,7 @@ export type LoginLoginAccessTokenErrors = {
      */
     401: HttpError;
     /**
-     * Email not verified
+     * Email not verified or user account is inactive
      */
     403: HttpError;
     /**
@@ -714,6 +719,10 @@ export type LoginResetPasswordErrors = {
      */
     400: HttpError;
     /**
+     * User account is inactive
+     */
+    403: HttpError;
+    /**
      * User not found
      */
     404: HttpError;
@@ -764,15 +773,11 @@ export type UsersGetUsersData = {
 
 export type UsersGetUsersErrors = {
     /**
-     * Inactive user
-     */
-    400: HttpError;
-    /**
      * Not authenticated
      */
     401: HttpError;
     /**
-     * Could not validate credentials or user doesn't have enough privileges
+     * Could not validate credentials, user doesn't have enough privileges, or user account is inactive
      */
     403: HttpError;
     /**
@@ -805,15 +810,11 @@ export type UsersCreateUserData = {
 
 export type UsersCreateUserErrors = {
     /**
-     * Inactive user
-     */
-    400: HttpError;
-    /**
      * Not authenticated
      */
     401: HttpError;
     /**
-     * Could not validate credentials or user doesn't have enough privileges
+     * Could not validate credentials, user doesn't have enough privileges, or user account is inactive
      */
     403: HttpError;
     /**
@@ -855,15 +856,11 @@ export type UsersDeleteUserData = {
 
 export type UsersDeleteUserErrors = {
     /**
-     * Inactive user
-     */
-    400: HttpError;
-    /**
      * Not authenticated
      */
     401: HttpError;
     /**
-     * Could not validate credentials or user doesn't have enough privileges
+     * Could not validate credentials, user doesn't have enough privileges, or user account is inactive
      */
     403: HttpError;
     /**
@@ -905,15 +902,11 @@ export type UsersGetUserData = {
 
 export type UsersGetUserErrors = {
     /**
-     * Inactive user
-     */
-    400: HttpError;
-    /**
      * Not authenticated
      */
     401: HttpError;
     /**
-     * Could not validate credentials or user doesn't have enough privileges
+     * Could not validate credentials, user doesn't have enough privileges, or user account is inactive
      */
     403: HttpError;
     /**
@@ -955,15 +948,11 @@ export type UsersUpdateUserData = {
 
 export type UsersUpdateUserErrors = {
     /**
-     * Inactive user
-     */
-    400: HttpError;
-    /**
      * Not authenticated
      */
     401: HttpError;
     /**
-     * Could not validate credentials or user doesn't have enough privileges
+     * Could not validate credentials, user doesn't have enough privileges, or user account is inactive
      */
     403: HttpError;
     /**
@@ -1009,15 +998,11 @@ export type UsersGetUserStatisticsData = {
 
 export type UsersGetUserStatisticsErrors = {
     /**
-     * Inactive user
-     */
-    400: HttpError;
-    /**
      * Not authenticated
      */
     401: HttpError;
     /**
-     * Could not validate credentials or user doesn't have enough privileges
+     * Could not validate credentials, user doesn't have enough privileges, or user account is inactive
      */
     403: HttpError;
     /**
@@ -1054,15 +1039,11 @@ export type MeDeleteMeData = {
 
 export type MeDeleteMeErrors = {
     /**
-     * Inactive user
-     */
-    400: HttpError;
-    /**
      * Not authenticated
      */
     401: HttpError;
     /**
-     * Could not validate credentials or user doesn't have enough privileges
+     * Could not validate credentials, user doesn't have enough privileges, or user account is inactive
      */
     403: HttpError;
     /**
@@ -1091,15 +1072,11 @@ export type MeReadMeData = {
 
 export type MeReadMeErrors = {
     /**
-     * Inactive user
-     */
-    400: HttpError;
-    /**
      * Not authenticated
      */
     401: HttpError;
     /**
-     * Could not validate credentials or user doesn't have enough privileges
+     * Could not validate credentials, user doesn't have enough privileges, or user account is inactive
      */
     403: HttpError;
     /**
@@ -1128,15 +1105,11 @@ export type MeUpdateMeData = {
 
 export type MeUpdateMeErrors = {
     /**
-     * Inactive user
-     */
-    400: HttpError;
-    /**
      * Not authenticated
      */
     401: HttpError;
     /**
-     * Could not validate credentials or user doesn't have enough privileges
+     * Could not validate credentials, user doesn't have enough privileges, or user account is inactive
      */
     403: HttpError;
     /**
@@ -1173,7 +1146,7 @@ export type MeUpdateMePasswordData = {
 
 export type MeUpdateMePasswordErrors = {
     /**
-     * Incorrect password, new password is the same as current, or inactive user
+     * Incorrect password or new password is the same as current
      */
     400: HttpError;
     /**
@@ -1181,7 +1154,7 @@ export type MeUpdateMePasswordErrors = {
      */
     401: HttpError;
     /**
-     * Could not validate credentials or user doesn't have enough privileges
+     * Could not validate credentials, user doesn't have enough privileges, or user account is inactive
      */
     403: HttpError;
     /**
@@ -1223,15 +1196,11 @@ export type ProjectsListProjectsData = {
 
 export type ProjectsListProjectsErrors = {
     /**
-     * Inactive user
-     */
-    400: HttpError;
-    /**
      * Not authenticated
      */
     401: HttpError;
     /**
-     * Could not validate credentials or user doesn't have enough privileges
+     * Could not validate credentials, user doesn't have enough privileges, or user account is inactive
      */
     403: HttpError;
     /**
@@ -1264,15 +1233,11 @@ export type ProjectsCreateProjectData = {
 
 export type ProjectsCreateProjectErrors = {
     /**
-     * Inactive user
-     */
-    400: HttpError;
-    /**
      * Not authenticated
      */
     401: HttpError;
     /**
-     * Could not validate credentials or user doesn't have enough privileges
+     * Could not validate credentials, user doesn't have enough privileges, or user account is inactive
      */
     403: HttpError;
     /**
@@ -1310,15 +1275,11 @@ export type ProjectsDeleteProjectData = {
 
 export type ProjectsDeleteProjectErrors = {
     /**
-     * Inactive user
-     */
-    400: HttpError;
-    /**
      * Not authenticated
      */
     401: HttpError;
     /**
-     * Could not validate credentials or user doesn't have enough privileges
+     * Could not validate credentials, user doesn't have enough privileges, or user account is inactive
      */
     403: HttpError;
     /**
@@ -1360,15 +1321,11 @@ export type ProjectsGetProjectData = {
 
 export type ProjectsGetProjectErrors = {
     /**
-     * Inactive user
-     */
-    400: HttpError;
-    /**
      * Not authenticated
      */
     401: HttpError;
     /**
-     * Could not validate credentials or user doesn't have enough privileges
+     * Could not validate credentials, user doesn't have enough privileges, or user account is inactive
      */
     403: HttpError;
     /**
@@ -1410,15 +1367,11 @@ export type ProjectsUpdateProjectData = {
 
 export type ProjectsUpdateProjectErrors = {
     /**
-     * Inactive user
-     */
-    400: HttpError;
-    /**
      * Not authenticated
      */
     401: HttpError;
     /**
-     * Could not validate credentials or user doesn't have enough privileges
+     * Could not validate credentials, user doesn't have enough privileges, or user account is inactive
      */
     403: HttpError;
     /**
@@ -1460,15 +1413,11 @@ export type ProjectsGetProjectOwnerData = {
 
 export type ProjectsGetProjectOwnerErrors = {
     /**
-     * Inactive user
-     */
-    400: HttpError;
-    /**
      * Not authenticated
      */
     401: HttpError;
     /**
-     * Could not validate credentials or user doesn't have enough privileges
+     * Could not validate credentials, user doesn't have enough privileges, or user account is inactive
      */
     403: HttpError;
     /**
@@ -1510,15 +1459,11 @@ export type ProjectsDeleteAllProjectFilesData = {
 
 export type ProjectsDeleteAllProjectFilesErrors = {
     /**
-     * Inactive user
-     */
-    400: HttpError;
-    /**
      * Not authenticated
      */
     401: HttpError;
     /**
-     * Could not validate credentials or user doesn't have enough privileges
+     * Could not validate credentials, user doesn't have enough privileges, or user account is inactive
      */
     403: HttpError;
     /**
@@ -1560,15 +1505,11 @@ export type ProjectsListProjectFilesData = {
 
 export type ProjectsListProjectFilesErrors = {
     /**
-     * Inactive user
-     */
-    400: HttpError;
-    /**
      * Not authenticated
      */
     401: HttpError;
     /**
-     * Could not validate credentials or user doesn't have enough privileges
+     * Could not validate credentials, user doesn't have enough privileges, or user account is inactive
      */
     403: HttpError;
     /**
@@ -1611,15 +1552,11 @@ export type ProjectsUploadFileData = {
 
 export type ProjectsUploadFileErrors = {
     /**
-     * Inactive user
-     */
-    400: HttpError;
-    /**
      * Not authenticated
      */
     401: HttpError;
     /**
-     * Could not validate credentials or user doesn't have enough privileges
+     * Could not validate credentials, user doesn't have enough privileges, or user account is inactive
      */
     403: HttpError;
     /**
@@ -1669,15 +1606,11 @@ export type ProjectsDeleteFileData = {
 
 export type ProjectsDeleteFileErrors = {
     /**
-     * Inactive user
-     */
-    400: HttpError;
-    /**
      * Not authenticated
      */
     401: HttpError;
     /**
-     * Could not validate credentials or user doesn't have enough privileges
+     * Could not validate credentials, user doesn't have enough privileges, or user account is inactive
      */
     403: HttpError;
     /**
@@ -1723,15 +1656,11 @@ export type ProjectsGetFileMetadataData = {
 
 export type ProjectsGetFileMetadataErrors = {
     /**
-     * Inactive user
-     */
-    400: HttpError;
-    /**
      * Not authenticated
      */
     401: HttpError;
     /**
-     * Could not validate credentials or user doesn't have enough privileges
+     * Could not validate credentials, user doesn't have enough privileges, or user account is inactive
      */
     403: HttpError;
     /**
@@ -1777,15 +1706,11 @@ export type ProjectsDownloadFileContentData = {
 
 export type ProjectsDownloadFileContentErrors = {
     /**
-     * Inactive user
-     */
-    400: HttpError;
-    /**
      * Not authenticated
      */
     401: HttpError;
     /**
-     * Could not validate credentials or user doesn't have enough privileges
+     * Could not validate credentials, user doesn't have enough privileges, or user account is inactive
      */
     403: HttpError;
     /**
@@ -1825,15 +1750,11 @@ export type ProjectsDownloadProjectArchiveData = {
 
 export type ProjectsDownloadProjectArchiveErrors = {
     /**
-     * Inactive user
-     */
-    400: HttpError;
-    /**
      * Not authenticated
      */
     401: HttpError;
     /**
-     * Could not validate credentials or user doesn't have enough privileges
+     * Could not validate credentials, user doesn't have enough privileges, or user account is inactive
      */
     403: HttpError;
     /**
@@ -1873,15 +1794,11 @@ export type AnalysesDeleteAllProjectAnalysesData = {
 
 export type AnalysesDeleteAllProjectAnalysesErrors = {
     /**
-     * Inactive user
-     */
-    400: HttpError;
-    /**
      * Not authenticated
      */
     401: HttpError;
     /**
-     * Could not validate credentials or user doesn't have enough privileges
+     * Could not validate credentials, user doesn't have enough privileges, or user account is inactive
      */
     403: HttpError;
     /**
@@ -1923,15 +1840,11 @@ export type AnalysesListProjectAnalysesData = {
 
 export type AnalysesListProjectAnalysesErrors = {
     /**
-     * Inactive user
-     */
-    400: HttpError;
-    /**
      * Not authenticated
      */
     401: HttpError;
     /**
-     * Could not validate credentials or user doesn't have enough privileges
+     * Could not validate credentials, user doesn't have enough privileges, or user account is inactive
      */
     403: HttpError;
     /**
@@ -1974,15 +1887,11 @@ export type AnalysesCreateAnalysisData = {
 
 export type AnalysesCreateAnalysisErrors = {
     /**
-     * Inactive user
-     */
-    400: HttpError;
-    /**
      * Not authenticated
      */
     401: HttpError;
     /**
-     * Could not validate credentials or user doesn't have enough privileges
+     * Could not validate credentials, user doesn't have enough privileges, or user account is inactive
      */
     403: HttpError;
     /**
@@ -2032,15 +1941,11 @@ export type AnalysesDeleteAnalysisData = {
 
 export type AnalysesDeleteAnalysisErrors = {
     /**
-     * Inactive user
-     */
-    400: HttpError;
-    /**
      * Not authenticated
      */
     401: HttpError;
     /**
-     * Could not validate credentials or user doesn't have enough privileges
+     * Could not validate credentials, user doesn't have enough privileges, or user account is inactive
      */
     403: HttpError;
     /**
@@ -2086,15 +1991,11 @@ export type AnalysesGetAnalysisData = {
 
 export type AnalysesGetAnalysisErrors = {
     /**
-     * Inactive user
-     */
-    400: HttpError;
-    /**
      * Not authenticated
      */
     401: HttpError;
     /**
-     * Could not validate credentials or user doesn't have enough privileges
+     * Could not validate credentials, user doesn't have enough privileges, or user account is inactive
      */
     403: HttpError;
     /**
@@ -2148,7 +2049,7 @@ export type AnalysesGetAnalysisPdfErrors = {
      */
     401: HttpError;
     /**
-     * Could not validate credentials or user doesn't have enough privileges
+     * Could not validate credentials, user doesn't have enough privileges, or user account is inactive
      */
     403: HttpError;
     /**
@@ -2192,15 +2093,11 @@ export type AnalysesGetFullAnalysisData = {
 
 export type AnalysesGetFullAnalysisErrors = {
     /**
-     * Inactive user
-     */
-    400: HttpError;
-    /**
      * Not authenticated
      */
     401: HttpError;
     /**
-     * Could not validate credentials or user doesn't have enough privileges
+     * Could not validate credentials, user doesn't have enough privileges, or user account is inactive
      */
     403: HttpError;
     /**

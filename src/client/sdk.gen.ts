@@ -20,6 +20,7 @@ export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends 
 
 /**
  * Login Access Token
+ * Authenticate with email and password to obtain a Bearer access token.
  */
 export const loginLoginAccessToken = <ThrowOnError extends boolean = false>(options: Options<LoginLoginAccessTokenData, ThrowOnError>) => {
     return (options.client ?? _heyApiClient).post<LoginLoginAccessTokenResponses, LoginLoginAccessTokenErrors, ThrowOnError>({
@@ -35,6 +36,9 @@ export const loginLoginAccessToken = <ThrowOnError extends boolean = false>(opti
 
 /**
  * Register
+ * Register a new user account.
+ *
+ * Sends a verification email if email verification is enabled.
  */
 export const loginRegister = <ThrowOnError extends boolean = false>(options: Options<LoginRegisterData, ThrowOnError>) => {
     return (options.client ?? _heyApiClient).post<LoginRegisterResponses, LoginRegisterErrors, ThrowOnError>({
@@ -64,10 +68,9 @@ export const loginVerifyEmail = <ThrowOnError extends boolean = false>(options: 
 
 /**
  * Resend Verification
- * Request a new email verification link.
+ * Resend the email verification link.
  *
- * For security reasons, this endpoint always returns success even if the
- * email doesn't exist or is already verified. This prevents email enumeration attacks.
+ * Always returns success to prevent email enumeration.
  */
 export const loginResendVerification = <ThrowOnError extends boolean = false>(options: Options<LoginResendVerificationData, ThrowOnError>) => {
     return (options.client ?? _heyApiClient).post<LoginResendVerificationResponses, LoginResendVerificationErrors, ThrowOnError>({
@@ -84,8 +87,7 @@ export const loginResendVerification = <ThrowOnError extends boolean = false>(op
  * Recover Password
  * Request a password reset email.
  *
- * For security reasons, this endpoint always returns success even if the
- * email doesn't exist in the system. This prevents email enumeration attacks.
+ * Always returns success to prevent email enumeration.
  */
 export const loginRecoverPassword = <ThrowOnError extends boolean = false>(options: Options<LoginRecoverPasswordData, ThrowOnError>) => {
     return (options.client ?? _heyApiClient).post<LoginRecoverPasswordResponses, LoginRecoverPasswordErrors, ThrowOnError>({
@@ -115,7 +117,10 @@ export const loginResetPassword = <ThrowOnError extends boolean = false>(options
 
 /**
  * Get Users
- * List users. Omit limit for all. Use user_ids/emails/search to filter.
+ * List users with optional filtering. Superuser only.
+ *
+ * Filter by IDs, emails, or free-text search.
+ * Paginated; omit limit to return all.
  */
 export const usersGetUsers = <ThrowOnError extends boolean = false>(options?: Options<UsersGetUsersData, ThrowOnError>) => {
     return (options?.client ?? _heyApiClient).get<UsersGetUsersResponses, UsersGetUsersErrors, ThrowOnError>({
@@ -132,6 +137,7 @@ export const usersGetUsers = <ThrowOnError extends boolean = false>(options?: Op
 
 /**
  * Create User
+ * Create a new user. Superuser only.
  */
 export const usersCreateUser = <ThrowOnError extends boolean = false>(options: Options<UsersCreateUserData, ThrowOnError>) => {
     return (options.client ?? _heyApiClient).post<UsersCreateUserResponses, UsersCreateUserErrors, ThrowOnError>({
@@ -152,6 +158,7 @@ export const usersCreateUser = <ThrowOnError extends boolean = false>(options: O
 
 /**
  * Delete User
+ * Delete a user by ID. Superuser only.
  */
 export const usersDeleteUser = <ThrowOnError extends boolean = false>(options: Options<UsersDeleteUserData, ThrowOnError>) => {
     return (options.client ?? _heyApiClient).delete<UsersDeleteUserResponses, UsersDeleteUserErrors, ThrowOnError>({
@@ -168,7 +175,7 @@ export const usersDeleteUser = <ThrowOnError extends boolean = false>(options: O
 
 /**
  * Get User
- * Get a specific user by ID.
+ * Get a specific user by ID. Superuser only.
  */
 export const usersGetUser = <ThrowOnError extends boolean = false>(options: Options<UsersGetUserData, ThrowOnError>) => {
     return (options.client ?? _heyApiClient).get<UsersGetUserResponses, UsersGetUserErrors, ThrowOnError>({
@@ -185,6 +192,7 @@ export const usersGetUser = <ThrowOnError extends boolean = false>(options: Opti
 
 /**
  * Update User
+ * Update a user's details by ID. Superuser only.
  */
 export const usersUpdateUser = <ThrowOnError extends boolean = false>(options: Options<UsersUpdateUserData, ThrowOnError>) => {
     return (options.client ?? _heyApiClient).patch<UsersUpdateUserResponses, UsersUpdateUserErrors, ThrowOnError>({
@@ -205,7 +213,7 @@ export const usersUpdateUser = <ThrowOnError extends boolean = false>(options: O
 
 /**
  * Get User Statistics
- * Get statistics for a specific user.
+ * Get usage statistics (projects, files, analyses) for a user. Superuser only.
  */
 export const usersGetUserStatistics = <ThrowOnError extends boolean = false>(options: Options<UsersGetUserStatisticsData, ThrowOnError>) => {
     return (options.client ?? _heyApiClient).get<UsersGetUserStatisticsResponses, UsersGetUserStatisticsErrors, ThrowOnError>({
@@ -222,6 +230,7 @@ export const usersGetUserStatistics = <ThrowOnError extends boolean = false>(opt
 
 /**
  * Delete Me
+ * Permanently delete the current user's account.
  */
 export const meDeleteMe = <ThrowOnError extends boolean = false>(options?: Options<MeDeleteMeData, ThrowOnError>) => {
     return (options?.client ?? _heyApiClient).delete<MeDeleteMeResponses, MeDeleteMeErrors, ThrowOnError>({
@@ -238,6 +247,7 @@ export const meDeleteMe = <ThrowOnError extends boolean = false>(options?: Optio
 
 /**
  * Read Me
+ * Get the currently authenticated user's profile.
  */
 export const meReadMe = <ThrowOnError extends boolean = false>(options?: Options<MeReadMeData, ThrowOnError>) => {
     return (options?.client ?? _heyApiClient).get<MeReadMeResponses, MeReadMeErrors, ThrowOnError>({
@@ -254,6 +264,7 @@ export const meReadMe = <ThrowOnError extends boolean = false>(options?: Options
 
 /**
  * Update Me
+ * Update the currently authenticated user's profile (e.g. name, email).
  */
 export const meUpdateMe = <ThrowOnError extends boolean = false>(options: Options<MeUpdateMeData, ThrowOnError>) => {
     return (options.client ?? _heyApiClient).patch<MeUpdateMeResponses, MeUpdateMeErrors, ThrowOnError>({
@@ -274,6 +285,9 @@ export const meUpdateMe = <ThrowOnError extends boolean = false>(options: Option
 
 /**
  * Update Me Password
+ * Change the current user's password.
+ *
+ * Requires the current password for verification.
  */
 export const meUpdateMePassword = <ThrowOnError extends boolean = false>(options: Options<MeUpdateMePasswordData, ThrowOnError>) => {
     return (options.client ?? _heyApiClient).patch<MeUpdateMePasswordResponses, MeUpdateMePasswordErrors, ThrowOnError>({
@@ -294,7 +308,10 @@ export const meUpdateMePassword = <ThrowOnError extends boolean = false>(options
 
 /**
  * List Projects
- * List projects accessible to the current user (paginated). Omit limit for all.
+ * List projects accessible to the current user.
+ *
+ * Paginated; omit limit to return all.
+ * Superusers see all projects.
  */
 export const projectsListProjects = <ThrowOnError extends boolean = false>(options?: Options<ProjectsListProjectsData, ThrowOnError>) => {
     return (options?.client ?? _heyApiClient).get<ProjectsListProjectsResponses, ProjectsListProjectsErrors, ThrowOnError>({
@@ -332,7 +349,7 @@ export const projectsCreateProject = <ThrowOnError extends boolean = false>(opti
 
 /**
  * Delete Project
- * Delete a project and all its associated files.
+ * Delete a project and all its associated files and analyses.
  */
 export const projectsDeleteProject = <ThrowOnError extends boolean = false>(options: Options<ProjectsDeleteProjectData, ThrowOnError>) => {
     return (options.client ?? _heyApiClient).delete<ProjectsDeleteProjectResponses, ProjectsDeleteProjectErrors, ThrowOnError>({
@@ -366,7 +383,7 @@ export const projectsGetProject = <ThrowOnError extends boolean = false>(options
 
 /**
  * Update Project
- * Update a project.
+ * Update a project's name or description.
  */
 export const projectsUpdateProject = <ThrowOnError extends boolean = false>(options: Options<ProjectsUpdateProjectData, ThrowOnError>) => {
     return (options.client ?? _heyApiClient).patch<ProjectsUpdateProjectResponses, ProjectsUpdateProjectErrors, ThrowOnError>({
@@ -439,6 +456,8 @@ export const projectsListProjectFiles = <ThrowOnError extends boolean = false>(o
 /**
  * Upload File
  * Upload a file to a project.
+ *
+ * Validates extension, size, and PDF page count.
  */
 export const projectsUploadFile = <ThrowOnError extends boolean = false>(options: Options<ProjectsUploadFileData, ThrowOnError>) => {
     return (options.client ?? _heyApiClient).post<ProjectsUploadFileResponses, ProjectsUploadFileErrors, ThrowOnError>({
@@ -563,6 +582,9 @@ export const analysesListProjectAnalyses = <ThrowOnError extends boolean = false
 /**
  * Create Analysis
  * Create a new analysis for a project.
+ *
+ * Requires LLM access and available quota.
+ * Enqueues an async task on the project's files.
  */
 export const analysesCreateAnalysis = <ThrowOnError extends boolean = false>(options: Options<AnalysesCreateAnalysisData, ThrowOnError>) => {
     return (options.client ?? _heyApiClient).post<AnalysesCreateAnalysisResponses, AnalysesCreateAnalysisErrors, ThrowOnError>({
@@ -596,6 +618,7 @@ export const analysesDeleteAnalysis = <ThrowOnError extends boolean = false>(opt
 
 /**
  * Get Analysis
+ * Get a specific analysis by ID.
  */
 export const analysesGetAnalysis = <ThrowOnError extends boolean = false>(options: Options<AnalysesGetAnalysisData, ThrowOnError>) => {
     return (options.client ?? _heyApiClient).get<AnalysesGetAnalysisResponses, AnalysesGetAnalysisErrors, ThrowOnError>({
@@ -612,6 +635,7 @@ export const analysesGetAnalysis = <ThrowOnError extends boolean = false>(option
 
 /**
  * Get Analysis Pdf
+ * Export a completed analysis as a PDF document.
  */
 export const analysesGetAnalysisPdf = <ThrowOnError extends boolean = false>(options: Options<AnalysesGetAnalysisPdfData, ThrowOnError>) => {
     return (options.client ?? _heyApiClient).get<AnalysesGetAnalysisPdfResponses, AnalysesGetAnalysisPdfErrors, ThrowOnError>({
@@ -628,7 +652,7 @@ export const analysesGetAnalysisPdf = <ThrowOnError extends boolean = false>(opt
 
 /**
  * Get Full Analysis
- * Get a specific analysis from a project.
+ * Get an analysis with full internal details. Superuser only.
  */
 export const analysesGetFullAnalysis = <ThrowOnError extends boolean = false>(options: Options<AnalysesGetFullAnalysisData, ThrowOnError>) => {
     return (options.client ?? _heyApiClient).get<AnalysesGetFullAnalysisResponses, AnalysesGetFullAnalysisErrors, ThrowOnError>({
@@ -645,6 +669,7 @@ export const analysesGetFullAnalysis = <ThrowOnError extends boolean = false>(op
 
 /**
  * Health
+ * Check if the API is running.
  */
 export const healthHealth = <ThrowOnError extends boolean = false>(options?: Options<HealthHealthData, ThrowOnError>) => {
     return (options?.client ?? _heyApiClient).get<HealthHealthResponses, unknown, ThrowOnError>({
