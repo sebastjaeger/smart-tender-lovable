@@ -22,7 +22,7 @@ check:
 test:
     npm run test
 
-run-dev:
+dev:
     npm run dev
 
 build:
